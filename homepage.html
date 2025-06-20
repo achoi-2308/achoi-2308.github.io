@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;800&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-image: linear-gradient(120deg, #89f7fe 0%, #66a6ff 100%);
+            color: white;
+            font-family: sans-serif;
+            min-height: 100vh;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: #045cb4;
+            color: whitesmoke;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-text {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 1.1em;
+            line-height: 1.2;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-family: sans-serif;
+            font-weight: 100;
+            padding: 10px 15px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: #262ddd;
+            border-radius: 5px;
+        }
+
+        .courses-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 50px;
+            padding: 20px 0;
+        }
+
+        .courses-container .subject {
+            flex: 1 1 200px;
+            max-width: 200px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background-color: rgba(242, 242, 140, 0.9);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .subject-flip-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s ease-in-out;
+        }
+
+        .subject:hover .subject-flip-container {
+            transform: rotateY(-180deg);
+        }
+
+        .subject-front,
+        .subject-back {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .subject-front {
+            background-color: rgba(242, 242, 140, 0.9);
+            transform: rotateY(180deg);
+        }
+
+        .subject-back {
+            background-color: rgba(242, 242, 140, 0.9);
+        }
+
+        .subject-inner {
+            width: 92%;
+            height: 92%;
+            border-radius: 50%;
+            background-color: #045cb4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .subject-inner-back {
+            width: 92%;
+            height: 92%;
+            border-radius: 50%;
+            background-color: #262ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .subject-text {
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            font-size: 1em;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .subject-image-placeholder {
+            color: rgba(255, 255, 255, 0.7);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            font-size: 0.9em;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        main {
+            color: black;
+            font-family: 'Roboto';
+            margin: 0;
+            padding: 20px;
+            flex: 1;
+        }
+
+        .content-container {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            margin: 0;
+        }
+
+        .box {
+            background-color: #045cb4;
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .tutoring-box {
+            flex: 2;
+        }
+
+        .tutoring-box p {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 200;
+        }
+
+        .imagebox {
+            flex: 1;
+            background-image: url(images/others/mathboard.jpg);
+            /* add more relevant pic later; maybe kid smiling or something */
+            border-radius: 10px
+        }
+
+        .signup-box {
+            background-color: rgb(255, 255, 0);
+            color: #333;
+            padding: 20px;
+            margin: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-size: 1.2em;
+            font-weight: 400;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        .signup-box:hover {
+            background-color: rgba(255, 255, 0, 0.9);
+        }
+
+        /* Carousel Styles */
+        .carousel-container {
+            background-color: #045cb4;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            height: 300px;
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 100%;
+        }
+
+        .carousel-slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .carousel-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .carousel-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #262ddd, #045cb4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            font-size: 1.2em;
+            text-align: center;
+            border-radius: 10px;
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+        }
+
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #045cb4;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            z-index: 10;
+        }
+
+        .carousel-nav:hover {
+            background-color: white;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .carousel-nav.prev {
+            left: 15px;
+        }
+
+        .carousel-nav.next {
+            right: 15px;
+        }
+
+        .carousel-indicators {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .carousel-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .carousel-indicator.active {
+            background-color: white;
+            transform: scale(1.2);
+        }
+
+        h1,
+        h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 4em;
+            color: white;
+            margin-bottom: 30px;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 1.5em;
+            color: white;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .content-container {
+                flex-direction: column;
+            }
+
+            .subject-text {
+                font-size: 0.9em;
+            }
+
+            .carousel-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+
+            .carousel-nav.prev {
+                left: 10px;
+            }
+
+            .carousel-nav.next {
+                right: 10px;
+            }
+
+            .carousel-container {
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-left">
+            <img src="https://sevenstartutors.com/wp-content/uploads/2024/05/Icon-SST-150x150.png" width="50"
+                height="50" />
+            <div class="logo-text">
+                SEVEN STAR<br> TUTORS
+            </div>
+        </div>
+
+        <nav class="nav-links">
+            <a href="homepage.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="content-container">
+            <div class="box tutoring-box">
+                <h1>Tutoring made easy.</h1>
+                <p>
+                    Join Seven Star Tutors for weekly tutoring throughout the 2024-2025 schoolyear! Tailored for K-8
+                    students, our live sessions offer interactive, individualized learning, and access to exclusive
+                    resources. These 1-on-1 and class tutoring sessions can be set up within 15 minutes! We sign up
+                    through direct contact; all it takes is a quick conversation and a free consultation.
+
+                    Our Programs are held on Zoom. Simply sign up and receive the meeting information for your session
+                    an hour prior to the session!
+                </p>
+            </div>
+
+            <div class="imagebox">
+            </div>
+        </div>
+
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSc6gwfKdphvxW7wX85dep2x1N9Ya2fhW9NP0u6FMEQiVa35AQ/viewform?usp=header"
+            target="_blank">
+            <div class="signup-box">
+                Sign up for your free 15-minute consultation here!
+            </div>
+        </a>
+
+        <!-- Subject Images Carousel -->
+        <div class="carousel-container">
+            <div class="carousel-wrapper">
+                <div class="carousel-track" id="carouselTrack">
+                    <!-- Slide 1: Math -->
+                    <div class="carousel-slide">
+                        <div class="carousel-placeholder">
+                            Math Subject<br>
+                            <small style="font-size: 0.8em; margin-top: 10px; display: block;">
+                                Place your math image at:<br>
+                                <strong>images/subjects/math.jpg</strong>
+                            </small>
+                        </div>
+                        <!-- Uncomment when you add the image:
+                        <img src="images/subjects/math.jpg" alt="Math Subject" class="carousel-image">
+                        -->
+                    </div>
+
+                    <!-- Slide 2: Science -->
+                    <div class="carousel-slide">
+                        <div class="carousel-placeholder">
+                            Science Subject<br>
+                            <small style="font-size: 0.8em; margin-top: 10px; display: block;">
+                                Place your science image at:<br>
+                                <strong>images/subjects/science.jpg</strong>
+                            </small>
+                        </div>
+                        <!-- Uncomment when you add the image:
+                        <img src="images/subjects/science.jpg" alt="Science Subject" class="carousel-image">
+                        -->
+                    </div>
+
+                    <!-- Slide 3: English -->
+                    <div class="carousel-slide">
+                        <div class="carousel-placeholder">
+                            English Subject<br>
+                            <small style="font-size: 0.8em; margin-top: 10px; display: block;">
+                                Place your english image at:<br>
+                                <strong>images/subjects/english.jpg</strong>
+                            </small>
+                        </div>
+                        <!-- Uncomment when you add the image:
+                        <img src="images/subjects/english.jpg" alt="English Subject" class="carousel-image">
+                        -->
+                    </div>
+
+                    <!-- Slide 4: History -->
+                    <div class="carousel-slide">
+                        <div class="carousel-placeholder">
+                            History Subject<br>
+                            <small style="font-size: 0.8em; margin-top: 10px; display: block;">
+                                Place your history image at:<br>
+                                <strong>images/subjects/history.jpg</strong>
+                            </small>
+                        </div>
+                        <!-- Uncomment when you add the image:
+                        <img src="images/subjects/history.jpg" alt="History Subject" class="carousel-image">
+                        -->
+                    </div>
+
+                    <!-- Slide 5: Reading -->
+                    <div class="carousel-slide">
+                        <div class="carousel-placeholder">
+                            Reading Subject<br>
+                            <small style="font-size: 0.8em; margin-top: 10px; display: block;">
+                                Place your reading image at:<br>
+                                <strong>images/subjects/reading.jpg</strong>
+                            </small>
+                        </div>
+                        <!-- Uncomment when you add the image:
+                        <img src="images/subjects/reading.jpg" alt="Reading Subject" class="carousel-image">
+                        -->
+                    </div>
+                </div>
+
+                <!-- Navigation Arrows -->
+                <button class="carousel-nav prev" id="prevBtn">&#8249;</button>
+                <button class="carousel-nav next" id="nextBtn">&#8250;</button>
+
+                <!-- Indicators -->
+                <div class="carousel-indicators" id="indicators">
+                    <div class="carousel-indicator active" data-slide="0"></div>
+                    <div class="carousel-indicator" data-slide="1"></div>
+                    <div class="carousel-indicator" data-slide="2"></div>
+                    <div class="carousel-indicator" data-slide="3"></div>
+                    <div class="carousel-indicator" data-slide="4"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        class Carousel {
+            constructor() {
+                this.track = document.getElementById('carouselTrack');
+                this.slides = document.querySelectorAll('.carousel-slide');
+                this.prevBtn = document.getElementById('prevBtn');
+                this.nextBtn = document.getElementById('nextBtn');
+                this.indicators = document.querySelectorAll('.carousel-indicator');
+
+                this.currentSlide = 0;
+                this.totalSlides = this.slides.length;
+                this.autoScrollInterval = null;
+
+                this.init();
+            }
+
+            init() {
+                // Add event listeners
+                this.prevBtn.addEventListener('click', () => this.prevSlide());
+                this.nextBtn.addEventListener('click', () => this.nextSlide());
+
+                // Add indicator event listeners
+                this.indicators.forEach((indicator, index) => {
+                    indicator.addEventListener('click', () => this.goToSlide(index));
+                });
+
+                // Start auto-scroll
+                this.startAutoScroll();
+
+                // Pause auto-scroll on hover
+                const carousel = document.querySelector('.carousel-container');
+                carousel.addEventListener('mouseenter', () => this.stopAutoScroll());
+                carousel.addEventListener('mouseleave', () => this.startAutoScroll());
+            }
+
+            updateCarousel() {
+                const translateX = -this.currentSlide * 100;
+                this.track.style.transform = `translateX(${translateX}%)`;
+
+                // Update indicators
+                this.indicators.forEach((indicator, index) => {
+                    indicator.classList.toggle('active', index === this.currentSlide);
+                });
+            }
+
+            nextSlide() {
+                this.currentSlide = (this.currentSlide + 1) % this.totalSlides;
+                this.updateCarousel();
+            }
+
+            prevSlide() {
+                this.currentSlide = (this.currentSlide - 1 + this.totalSlides) % this.totalSlides;
+                this.updateCarousel();
+            }
+
+            goToSlide(slideIndex) {
+                this.currentSlide = slideIndex;
+                this.updateCarousel();
+            }
+
+            startAutoScroll() {
+                this.stopAutoScroll(); // Clear any existing interval
+                this.autoScrollInterval = setInterval(() => {
+                    this.nextSlide();
+                }, 4000); // Change slide every 4 seconds
+            }
+
+            stopAutoScroll() {
+                if (this.autoScrollInterval) {
+                    clearInterval(this.autoScrollInterval);
+                    this.autoScrollInterval = null;
+                }
+            }
+        }
+
+        // Initialize carousel when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new Carousel();
+        });
+    </script>
+</body>
+
+</html>
